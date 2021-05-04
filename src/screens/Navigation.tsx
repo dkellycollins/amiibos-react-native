@@ -1,19 +1,18 @@
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import * as Linking from 'expo-linking';
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
-import NotFoundScreen from '../screens/NotFoundScreen';
+import AmiibosScreen from './AmiibosScreen';
 import AppHeader from './AppHeader';
-import RootNavigation, { RootNavigationConfiguration } from './RootNavigation';
 
-const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 const linkingConfiguration = {
   prefixes: [Linking.makeUrl('/')],
   config: {
     screens: {
-      Root: RootNavigationConfiguration,
-      NotFound: '*'
+      Figures: 'amiibos/figures',
+      Cards: 'amiibos/cards',
     },
   },
 };
@@ -23,10 +22,20 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
     <NavigationContainer
       linking={linkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack.Navigator initialRouteName="Figures" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Root" component={RootNavigation} />
-        <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ headerShown: true, header: AppHeader }} />
-      </Stack.Navigator>
+      <Drawer.Navigator
+        initialRouteName="Figures"
+        screenOptions={({ navigation }) => ({
+          headerShown: true,
+          header: () => <AppHeader navigation={navigation} />
+        })}
+      >
+        <Drawer.Screen name="Figures">
+          {(props) => <AmiibosScreen {...props} type="figure" />}
+        </Drawer.Screen>
+        <Drawer.Screen name="Cards">
+          {(props) => <AmiibosScreen {...props} type="card" />}
+        </Drawer.Screen>
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 }
