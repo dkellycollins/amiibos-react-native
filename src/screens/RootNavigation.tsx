@@ -1,7 +1,6 @@
-import React from 'react';
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import TabOneScreen from "../screens/TabOneScreen";
-import TabTwoScreen from "../screens/TabTwoScreen";
+import React from 'react';
+import AmiibosScreen from './AmiibosScreen';
 import AppHeader from "./AppHeader";
 
 const Drawer = createDrawerNavigator();
@@ -16,8 +15,8 @@ export const RootNavigationConfiguration = {
 export default function RootNavigation() {
   return (
     <Drawer.Navigator initialRouteName="Figures" screenOptions={{ headerShown: true, header: AppHeader }}>
-      <Drawer.Screen name="Figures" component={TabOneScreen} />
-      <Drawer.Screen name="Cards" component={TabTwoScreen} />
+      <Drawer.Screen name="Figures" component={AmiibosScreen} />
+      <Drawer.Screen name="Cards" component={AmiibosScreen} />
     </Drawer.Navigator>
   );
 }
